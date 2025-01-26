@@ -69,210 +69,154 @@ IP 프로토콜을 탐지합니다.
 - Any
 모든 프로토콜을 탐지합니다.
 
-Direction : 탐지할 방향을 정의
+#### Direction : 탐지할 방향을 정의
 
-
-
-
-명령어
-기능
-
-
-->
+- ->
 출발지 -> 목적지로 가는 패킷을 탐지합니다.
 
-
-<>
+- <>
 출발지 ~ 목적지 사이 모든 패킷을 탐지합니다.
 
+- Source IP & Port / Destination IP & Port : 출발지, 목적지 IP , Port 정의
 
-
-
-Source IP & Port / Destination IP & Port : 출발지, 목적지 IP , Port 정의
-
-
-
-
-명령어
-기능
-
-
-! ( 부정연산자 )
+- ! ( 부정연산자 )
 부정연산자 ( ! ) 를 IP 또는 Port 앞에 기입 할 경우 해당 IP 또는 Port 번호를 제외한 주소만 매칭합니다.
 
-
-Any
+- Any
 모든 IP 또는 Port 를 의미합니다.
 
-
-포트번호
+- 포트번호
 지정된 포트번호를 의미합니다.
 
-
-포트번호1:포트번호2
+- 포트번호1:포트번호2
 포트번호1 ~ 포트번호2 를 의미합니다
 
-
-:포트번호
+- :포트번호
 지정된 포트번호 이하 모든 포트를 의미합니다.
 
-
-포트번호:
+- 포트번호:
 지정된 포트번호 이상 모든 포트를 의미합니다.
 
-
-
-※ 여러 IP 를 작성할 경우 쉼표 ( , ) 로 IP 주소 목록을 구분하고 구분된 IP 주소 목록을 대괄호를 이용해 표시합니다.    ex ) alert tcp ![111.111.111.0/24,192.168.1.0/24] any -> [111.111.111.0/24,192.168.1.0/24] 123          위 예시를 해석 할 경우 111.111.111.0/24 또는 192.168.1.0/24 를 제외하고 tcp 프로토콜을 사용해 목적지 123번          포트로 패킷이 들어올 경우 경고를 발생이라는 정책이 됩니다.
+※ 여러 IP 를 작성할 경우 쉼표 ( , ) 로 IP 주소 목록을 구분하고 구분된 IP 주소 목록을 대괄호를 이용해 표시합니다.     
+ex ) alert tcp ![111.111.111.0/24,192.168.1.0/24] any -> [111.111.111.0/24,192.168.1.0/24] 123           
+위 예시를 해석 할 경우 111.111.111.0/24 또는 192.168.1.0/24 를 제외하고 tcp 프로토콜을 사용해 목적지 123번       
+포트로 패킷이 들어올 경우 경고를 발생이라는 정책이 됩니다.    
  
-Rule Option
-Rule Header 가 1차적인 정책을 설정한 것이라면 Rule Option이 실제로 악의적인 내용의 패킷을 탐지하는 영역입니다.
-다르게 말하면 Rule Option은 탐지의 정확도를 향상시켜주는 옵션입니다.
-Rule Option을 사용할 경우 모든 옵션은 세미콜론 ( ; ) 을 사용해 서로를 구분하고, 규칙 옵션 키워드는 콜론 ( : ) 을 사용해 인수와 구분합니다.
-Rule Option은 크게 일반 옵션, Payload, HTTP 옵션, 흐름 옵션으로 구분됩니다.
+#### Rule Option
+Rule Header 가 1차적인 정책을 설정한 것이라면 Rule Option이 실제로 악의적인 내용의 패킷을 탐지하는 영역입니다.     
+다르게 말하면 Rule Option은 탐지의 정확도를 향상시켜주는 옵션입니다.        
+Rule Option을 사용할 경우 모든 옵션은 세미콜론 ( ; ) 을 사용해 서로를 구분하고, 규칙 옵션 키워드는 콜론 ( : ) 을 사용해 인수와 구분합니다.      
+Rule Option은 크게 일반 옵션, Payload, HTTP 옵션, 흐름 옵션으로 구분됩니다.      
 
-일반 옵션 : 규칙에 대한 정보를 제공하는 옵션으로 매칭하는 동안 어떠한 영향도 미치지 않는 옵션
+#### 일반 옵션 : 규칙에 대한 정보를 제공하는 옵션으로 매칭하는 동안 어떠한 영향도 미치지 않는 옵션   
 
-
-
-
-명령어
-기능
-예시
-
-
-msg
+- msg
 Snort 규칙이 탐지될 경우 출력되는 메시지 
 msg:“메시지 내용”;
 
 
-sid
+- sid
 Snort 규칙을 구별하는 식별자0~1,000,000 번 까지는 예약된 식별자1,000,001이상부터 사용
 sid:1000001;
 
 
-rev
+- rev
 Snort 규칙의 수정 버전을 정의수정할 경우 1씩 증가
 rev:1;
 
 
-classtype
+- classtype
 Snort 규칙을 분류하는 옵션
 clsstype:분류이름;
 
 
-priority
+- priority
 우선 순위를 지정하는 옵션1 ~ 10까지 수를 사용( 값이 작을수록 우선순위가 높음 )
 priority:10;
 
 
-reference
+- reference
 해당 규칙에 참고가 되는 URL을 지정하는 옵션
 Reference:래퍼런스명 http://…;
 
+- Payload
+Payload는 Snort Rule에서 실질적으로 악성 패킷을 탐지하는 옵션
 
-
-
-Payload : Payload는 Snort Rule에서 실질적으로 악성 패킷을 탐지하는 옵션
-
-
-
-
-명령어
-기능
-예시
-
-
-content
+- content
 패킷 데이터에서 매칭할 문자열을 지정하는 옵션
 content:”abc”;=> abc 문자열을 탐지
 
 
-nocase
+- nocase
 Content 옵션 뒤에 작성하여 content 문자열을 대소문자 구분없이 탐지하도록 함
 content:”abc”;nocase;=> Abc,ABC,aBc,abC 모두 탐지
 
 
-offset
+- offset
 패킷의 페이로드에서 매칭을 시작할 문자열의 위치를 지정하는 옵션( 지정한 바이트 만큼 떨어진 위치부터 탐색시작, 시작은 0Byte )
 offset:3;=> 4Byte부터 탐색을 시작
 
 
-distance
+- distance
 content 옵션 값 매칭 후를 기준으로 지정된 패턴 탐색을 시작하기 전 무시해야 하는 패킷의 거리를 지정하는 옵션
 content:”abc”;content:”test”;distance:5;=> abc 문자열 매칭 후 지점을 기준으로 5byte 이후 test 문자열 탐색
 
 
-within
+- within
 content 옵션 매칭 후 다음 지정된 탐색을 진행할 범위를 지정하는 옵션
 content:”abc”;content:”test”;within:5;=> abc 문자열 매칭 후 지점을 기준으로 5Byte 이내에 test 문자열 탐색
 
 
 
 
-HTTP 옵션 : content 옵션 값이 탐색할 범위를 HTTP 영역으로 한정할 때 사용하는 옵션
+#### HTTP 옵션
+content 옵션 값이 탐색할 범위를 HTTP 영역으로 한정할 때 사용하는 옵션
 
-
-
-
-명령어
-기능
-
-
-http_method
+- http_method
 패킷 페이로드 중 HTTP 메소드 영역에서 content 옵션 값을 매칭하는 옵션
 
 
-http_uri / http_raw_uri
+- http_uri / http_raw_uri
 패킷 페이로드 중 URI 영역을 탐색하는 옵션raw가 포함된 옵션은 디코딩되지 않은 페이로드를 대상으로 탐색하는 옵션
 
 
-http_cookie
+- http_cookie
 http 쿠키 값을 탐색하는 옵션
 
 
-http_header / http_raw_header
+- http_header / http_raw_header
 HTTP 헤더 영역을 요청과 응답에 관계없이 탐색하는 옵션
 
 
-http_client_body
+- http_client_body
 HTTP 바디 영역을 탐색하는 옵션
 
 
-http_stat_code
+- http_stat_code
 HTTP 응답 메시지에서 상태 코드 영역을 탐색하는 옵션
 
 
-http_stat_msg
+- http_stat_msg
 HTTP 응답 메시지에서 상태 메세지 영역을 탐색하는 옵션
 
+#### 흐름 옵션 : 패턴을 매칭할 때 적용해야 하는 트래픽의 방향을 지정하는 옵션
 
-
-
-흐름 옵션 : 패턴을 매칭할 때 적용해야 하는 트래픽의 방향을 지정하는 옵션
-
-
-
-
-명령어
-기능
-
-
-flow
+- flow
 흐름 옵션을 사용할 때 반드시 사용해야 하는 옵션
 
 
-to_client / from_server
+- to_client / from_server
 Server -> Client 방향으로 오는 패킷을 매칭하는 옵션
 
 
-to_server / from_client
+- to_server / from_client
 Client -> Server 방향으로 오는 패킷을 매칭하는 옵션
 
 
-Established
+- Established
 세션이 성립된 상태의 패킷을 매칭하는 옵션
 
 
-statless
+- statless
 세션 성립 여부와 상관 없이 매칭하는 옵션
 
